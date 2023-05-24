@@ -6,12 +6,14 @@ import SignInWithGoogle from "../components/SignInWithGoogle";
 
 function MyApp({ Component, pageProps }) {
   const app = initFirebase();
-
+  
   const auth = getAuth();
   const [user, setUser] = useState(null);
   const router = useRouter();
 
   useEffect(() => {
+    
+    
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       if (user) {
         // User is signed in
