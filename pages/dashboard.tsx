@@ -1,6 +1,6 @@
-import { getAuth, onAuthStateChanged, signOut } from "firebase/auth";
+import { getAuth, onAuthStateChanged, signOut, User } from "firebase/auth";
 import { useRouter } from "next/router";
-import app from '../firebase/firebase';
+import { app } from '../firebase/firebase';
 import { useState, useEffect } from "react";
 
 
@@ -9,7 +9,9 @@ const Dashboard = () => {
 
     const auth = getAuth(app);
     const router = useRouter();
-    const [user, setUser] = useState(null);
+    const [user, setUser] = useState<User | null>(null);
+    // const [imageUrl, setImageUrl] = useState<string | null>(null);
+    // const transformedUrl = imageUrl !== null ? imageUrl : undefined;
 
     const handleSignOut = () => {
         signOut(auth)
@@ -42,7 +44,7 @@ const Dashboard = () => {
             
             {user && (
               <div>
-                <img src={user.photoURL}></img>
+                {/* {transformedUrl && <img src={transformedUrl} alt="User Avatar" />} */}
                 <p>Name: {user.displayName}</p>
                 <p>Email: {user.email}</p>
               </div>
