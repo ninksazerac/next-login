@@ -1,6 +1,6 @@
 import { useState } from "react";
 import axios from 'axios';
-import { getAuth, signInWithPopup, GoogleAuthProvider, User, UserCredential } from "firebase/auth";
+import { getAuth, signInWithPopup, GoogleAuthProvider, User } from "firebase/auth";
 import { useRouter } from "next/router";
 
 const SignInWithGoogle = ({ onSignIn }: { onSignIn: (user: User) => void }) => {
@@ -14,7 +14,9 @@ const SignInWithGoogle = ({ onSignIn }: { onSignIn: (user: User) => void }) => {
   const handleTokenExchange = async (idToken: string) => {
     try {
       const response = await axios.post(
-        "<your-token-exchange-api-endpoint>", // Replace with your token exchange API endpoint
+        "/pages/api/signin-with-google",
+        // Replace with your token exchange API endpoint
+        //https://recaptchaenterprise.googleapis.com is the endpoint for the ReCAPTCHA Enterprise service provided by Google
         { idToken }
       );
       console.log(response.data);
@@ -34,22 +36,22 @@ const SignInWithGoogle = ({ onSignIn }: { onSignIn: (user: User) => void }) => {
 
   };
 
-  const signIn = () => {
-    signInWithPopup(auth, provider)
-      .then(async (result) => {
+  const signIn = async () => {
+    try {
+    const result = await signInWithPopup(auth, provider)
         const user = result.user;
         onSignIn(user);
         const idToken = await user.getIdToken();
         handleTokenExchange(idToken);
         
-      })
-      .catch((error) => {
+      }
+      catch(error : any) {
         const errorCode = error.code;
         const errorMessage = error.message;
         const email = error.email;
         const credential = GoogleAuthProvider.credentialFromError(error);
         setError("Sign in with Google failed");
-      });
+      };
   };
 
   return (
