@@ -7,13 +7,15 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   try {
     // Make the necessary requests to verify and handle the Google sign-in token
     // Replace this code with your actual implementation
+    const headers = {
+      Authorization: "X-Firebase-AppCheck",
+    }
 
     // Example: Verify the ID token using Google's tokeninfo endpoint
-    const response = await axios.get(`https://oauth2.googleapis.com/tokeninfo?id_token=${idToken}`); //Header
+    const response = await axios.get(`https://oauth2.googleapis.com/tokeninfo?id_token=${idToken}`,{ headers }); //Header
     const { sub, email, name } = response.data;
 
-    // Handle the user data or perform any other necessary operations
-    // Return a response indicating success or failure
+    
 
     res.status(200).json({ success: true, userId: sub, email, name });
   } catch (error) {

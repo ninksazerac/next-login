@@ -3,58 +3,62 @@ import { useRouter } from "next/router";
 import { app } from '../firebase/firebase';
 import { useState, useEffect } from "react";
 
-
-
 const Dashboard = () => {
+  const auth = getAuth();
+  const router = useRouter();
+  const [user, setUser] = useState<User | null>(null);
 
-    const auth = getAuth(app);
-    const router = useRouter();
-    const [user, setUser] = useState<User | null>(null);
-    // const [imageUrl, setImageUrl] = useState<string | null>(null);
-    // const transformedUrl = imageUrl !== null ? imageUrl : undefined;
+  const handleSignOut = () => {
+    signOut(auth)
+      .then(() => {
+        console.log("Successfully signed out");
 
-    const handleSignOut = () => {
-        signOut(auth)
-            .then(() => {
-                console.log("Successfully signed out");
-                router.push("/");
-            })
-            .catch((error) => {
-                console.log("Error occurred during sign out:", error);
-            });
-      };
+        window.grecaptcha.render("recaptcha-container", {
+          sitekey: "6LcO_komAAAAAG_nAU7L846UqCS9feqH9HIXTrJX",
+          size: "invisible",
+          callback: (reCAPTCHAToken: string) => {
+            console.log("reCAPTCHA token:", reCAPTCHAToken);
+            // You can handle the token exchange or other logic here
+          },
+        });
 
-      useEffect(() => {
-        const unsubscribe = onAuthStateChanged(auth, (user) => {
-        if (user) {
-          // User is signed in
-          // console.log("User is signed in:", user);
-          setUser(user);
-        } else {
-          // User is signed out
-          console.log("User is signed out");
-          router.push("/"); // Redirect to the home page if the user is signed out
-        }
+        setTimeout(() => {
+          window.grecaptcha.execute("6LcO_komAAAAAG_nAU7L846UqCS9feqH9HIXTrJX", {
+            action: "SIGN_OUT",
+          });
+          router.push("/");
+        }, 10000); // Delay the redirection by 10 seconds (adjust the duration as needed)
+      })
+      .catch((error) => {
+        console.log("Error occurred during sign out:", error);
       });
-      return () => unsubscribe();
-    }, []);
+  };
 
-    return(
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      if (user) {
+        setUser(user);
+      } else {
+        console.log("User is signed out");
+        router.push("/");
+      }
+    });
+    return () => unsubscribe();
+  }, []);
+
+  return (
+    <div>
+      {user && (
         <div>
-            
-            {user && (
-              <div>
-                {/* {transformedUrl && <img src={transformedUrl} alt="User Avatar" />} */}
-                <p>Name: {user.displayName}</p>
-                <p>Email: {user.email}</p>
-              </div>
-            )}
-
-            <button
-                onClick={handleSignOut}>
-                Sign Out
-            </button>
+          <p>Name: {user.displayName}</p>
+          <p>Email: {user.email}</p>
         </div>
-    );
-}
+      )}
+
+      <button onClick={handleSignOut}>Sign Out</button>
+      <div id="recaptcha-container"></div>
+    </div>
+  );
+};
+
 export default Dashboard;
