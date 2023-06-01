@@ -75,11 +75,10 @@
 @media (min-width: 1440px) and (min-height: 1024px) {
   .container {
     background-color: #F78F1E;
-    /* background-size: contain; */
-    
+        
   }
   .bgrabbit {
-  background-size: 392px 754.51px;
+    background-size: 547.66px 754.51px;
   }
   .card {
     width: 480px;
