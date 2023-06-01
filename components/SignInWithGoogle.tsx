@@ -1,7 +1,15 @@
 import { useState, useEffect } from "react";
-import axios from 'axios';
 import { getAuth, signInWithPopup, GoogleAuthProvider, User } from "firebase/auth";
 import { useRouter } from "next/router";
+import Image from 'next/image'
+import { Button } from 'react-bootstrap';
+
+import axios from 'axios';
+
+import styles from '../styles/signin.module.css';
+import bgrabbit from '../public/Rabbit 2D_SVG.svg';
+import logogoogle from '../public/Google Logo.svg';
+
 
 declare global {
   interface Window {
@@ -13,6 +21,7 @@ interface ReCaptchaInstance {
   execute: (siteKey: string, options: any) => Promise<string>;
   render: (container: string, options: any) => number;
 }
+
 
 const SignInWithGoogle = ({ onSignIn }: { onSignIn: (user: User) => void }) => {
   const auth = getAuth();
@@ -61,6 +70,7 @@ const SignInWithGoogle = ({ onSignIn }: { onSignIn: (user: User) => void }) => {
       const result = await signInWithPopup(auth, provider);
       const user = result.user;
       onSignIn(user);
+
       const idToken = await user.getIdToken();
 
       if (!recaptchaRendered) {
@@ -102,17 +112,39 @@ const SignInWithGoogle = ({ onSignIn }: { onSignIn: (user: User) => void }) => {
       const errorMessage = error.message;
       const email = error.email;
       const credential = GoogleAuthProvider.credentialFromError(error);
-      setError("Sign in with Google failed");
+      setError(error);
     }
   };
 
   return (
-    <div>
-      <button onClick={signIn}>Sign in with Google</button>
-      {error && <p>{error}</p>}
-      <div id="recaptcha-container"></div>
+    
+    <div className={styles.container}>
+      <div className={styles.bgrabbit}>
+        <svg className="svg-icon" viewBox="0 0 24 24">
+          <path fill="currentColor"/>
+        </svg>
+      </div>
+      <div className={`card ${styles.card}`}>
+        <div className={`card-body ${styles.cardBody}`}>
+        <h5 className={`card-title ${styles.cardTitle}`}>BILL PAYMENT GATEWAY
+        </h5>
+        <Button
+          variant="light"
+          className={`btn btn-block btn-google ${styles.button}`}
+          onClick={signIn}
+        >
+          
+          <Image className="w-20 h-20 me-2" src={logogoogle} alt={"icon"}></Image>
+          <span className={`text ${styles.buttonText}`}>Sign in with Google</span>
+          
+        </Button>
+        
+        </div>
+      </div>
+      
     </div>
   );
 };
 
 export default SignInWithGoogle;
+

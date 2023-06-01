@@ -32,7 +32,7 @@
     "pages/dashboard.tsx",
     "pages/_app.tsx",
     "firebase/firebase.tsx",
-    "components/SignInWithGoogle.tsx"
+    "components/signinwithgoogle.tsx"
   ],
   "exclude": [
     "node_modules"

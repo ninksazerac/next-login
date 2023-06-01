@@ -12,7 +12,6 @@ const firebaseConfig = {
   appId: "1:671360097728:web:41e517e5abd2c8a4e8bc25"
 };
 
-
 export let app: FirebaseApp | null = null;
 export let auth: Auth | null = null;
 

@@ -12,7 +12,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     }
 
     // Example: Verify the ID token using Google's tokeninfo endpoint
-    const response = await axios.get(`https://oauth2.googleapis.com/tokeninfo?id_token=${idToken}`,{ headers }); //Header
+    const response = await axios.post(`https://oauth2.googleapis.com/tokeninfo?id_token=${idToken}`,{ headers }); //Header
     const { sub, email, name } = response.data;
 
     

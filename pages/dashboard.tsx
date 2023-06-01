@@ -1,6 +1,6 @@
 import { getAuth, onAuthStateChanged, signOut, User } from "firebase/auth";
+import Link from "next/link";
 import { useRouter } from "next/router";
-import { app } from '../firebase/firebase';
 import { useState, useEffect } from "react";
 
 const Dashboard = () => {
@@ -48,6 +48,9 @@ const Dashboard = () => {
 
   return (
     <div>
+      <Link href='/provider'>
+        Provider
+      </Link>
       {user && (
         <div>
           <p>Name: {user.displayName}</p>
