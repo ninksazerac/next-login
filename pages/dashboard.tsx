@@ -48,9 +48,17 @@ const Dashboard = () => {
 
   return (
     <div>
+      <ul className="row">
       <Link href='/provider'>
         Provider
       </Link>
+      <Link href='/transaction'>
+        Transaction
+      </Link>
+      <Link href='/service'>
+        Service
+      </Link>
+      </ul>
       {user && (
         <div>
           <p>Name: {user.displayName}</p>
