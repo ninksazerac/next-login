@@ -7,7 +7,7 @@
       }
       @media (max-width: 375px) and (max-height: 812px) {
         .cls-1 {
-          fill: #F7F7F7; /* Red color */
+          fill: #F7F7F7;
         }
       }
     </style>
