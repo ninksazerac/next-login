@@ -1,7 +1,9 @@
-import { initializeApp, FirebaseApp  } from "firebase/app";
-import { initializeAppCheck, ReCaptchaEnterpriseProvider } from "firebase/app-check";
+import { initializeApp, FirebaseApp } from "firebase/app";
+import {
+  initializeAppCheck,
+  ReCaptchaEnterpriseProvider,
+} from "firebase/app-check";
 import { Auth, getAuth, onAuthStateChanged, User } from "firebase/auth";
-
 
 const firebaseConfig = {
   apiKey: "AIzaSyAOdvRFxrjJ3zvhV2wyedDYahG-reHw_So",
@@ -9,7 +11,7 @@ const firebaseConfig = {
   projectId: "sign-in-eceb3",
   storageBucket: "sign-in-eceb3.appspot.com",
   messagingSenderId: "671360097728",
-  appId: "1:671360097728:web:41e517e5abd2c8a4e8bc25"
+  appId: "1:671360097728:web:41e517e5abd2c8a4e8bc25",
 };
 
 export let app: FirebaseApp | null = null;
@@ -21,9 +23,10 @@ export const initFirebase = (): FirebaseApp => {
     auth = getAuth(app);
     if (typeof window !== "undefined") {
       initializeAppCheck(app, {
-        provider: new ReCaptchaEnterpriseProvider('6LcO_komAAAAAG_nAU7L846UqCS9feqH9HIXTrJX'),
+        provider: new ReCaptchaEnterpriseProvider(
+          "6LcO_komAAAAAG_nAU7L846UqCS9feqH9HIXTrJX"
+        ),
         isTokenAutoRefreshEnabled: true,
-        
       });
     }
   }

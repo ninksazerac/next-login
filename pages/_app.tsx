@@ -6,9 +6,9 @@ import "bootstrap/dist/css/bootstrap.min.css"; // Import bootstrap CSS
 import SignInWithGoogle from "../components/signinwithgoogle";
 import Head from "next/head";
 
-function MyApp({ Component, pageProps }: { Component: any, pageProps: any }) {
+function MyApp({ Component, pageProps }: { Component: any; pageProps: any }) {
   const app: FirebaseApp = initFirebase();
-  
+
   const auth = getAuth(app);
   const [user, setUser] = useState<User | null>(null);
   const router = useRouter();
@@ -36,15 +36,14 @@ function MyApp({ Component, pageProps }: { Component: any, pageProps: any }) {
 
   return (
     <>
-    
-    <div>
-      {/* Render the current page component */}
-      
-      <Component {...pageProps} />
+      <div>
+        {/* Render the current page component */}
 
-      {/* Render the sign-in component on the first page */}
-      {isFirstPage && !user && <SignInWithGoogle onSignIn={setUser} />}
-    </div>
+        <Component {...pageProps} />
+
+        {/* Render the sign-in component on the first page */}
+        {isFirstPage && !user && <SignInWithGoogle onSignIn={setUser} />}
+      </div>
     </>
   );
 }

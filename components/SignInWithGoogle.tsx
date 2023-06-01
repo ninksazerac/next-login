@@ -1,15 +1,18 @@
 import { useState, useEffect } from "react";
-import { getAuth, signInWithPopup, GoogleAuthProvider, User } from "firebase/auth";
+import {
+  getAuth,
+  signInWithPopup,
+  GoogleAuthProvider,
+  User,
+} from "firebase/auth";
 import { useRouter } from "next/router";
-import Image from 'next/image'
-import { Button } from 'react-bootstrap';
+import Image from "next/image";
+import { Button } from "react-bootstrap";
 
-import axios from 'axios';
+import axios from "axios";
 
-import styles from '../styles/signin.module.css';
-import bgrabbit from '../public/Rabbit 2D_SVG.svg';
-import logogoogle from '../public/Google Logo.svg';
-
+import styles from "../styles/signin.module.css";
+import logogoogle from "../public/Google Logo.svg";
 
 declare global {
   interface Window {
@@ -22,7 +25,6 @@ interface ReCaptchaInstance {
   render: (container: string, options: any) => number;
 }
 
-
 const SignInWithGoogle = ({ onSignIn }: { onSignIn: (user: User) => void }) => {
   const auth = getAuth();
   const provider = new GoogleAuthProvider();
@@ -31,23 +33,26 @@ const SignInWithGoogle = ({ onSignIn }: { onSignIn: (user: User) => void }) => {
   const [recaptchaRendered, setRecaptchaRendered] = useState(false);
 
   useEffect(() => {
-    const loadRecaptchaScript = async() => {
+    const loadRecaptchaScript = async () => {
       const script = document.createElement("script");
-      script.src = "https://www.google.com/recaptcha/api.js?render=6LcO_komAAAAAG_nAU7L846UqCS9feqH9HIXTrJX";
-      
+      script.src =
+        "https://www.google.com/recaptcha/api.js?render=6LcO_komAAAAAG_nAU7L846UqCS9feqH9HIXTrJX";
+
       const loadScriptPromise = new Promise<void>((resolve, reject) => {
-        script.addEventListener("load",() => resolve());
-        script.addEventListener("error",() =>  reject());
-        
-      })
-        document.body.appendChild(script);
-        await loadScriptPromise;
+        script.addEventListener("load", () => resolve());
+        script.addEventListener("error", () => reject());
+      });
+      document.body.appendChild(script);
+      await loadScriptPromise;
     };
 
     loadRecaptchaScript();
   }, []);
 
-  const handleTokenExchange = async (idToken: string, reCAPTCHAToken: string) => {
+  const handleTokenExchange = async (
+    idToken: string,
+    reCAPTCHAToken: string
+  ) => {
     try {
       const response = await axios.post("/pages/api/signin-with-google", {
         idToken,
@@ -88,24 +93,29 @@ const SignInWithGoogle = ({ onSignIn }: { onSignIn: (user: User) => void }) => {
           const timeoutId = setTimeout(() => {
             reject(new Error("reCAPTCHA execution timed out"));
           }, timeoutDuration);
-  
-          window.grecaptcha.execute("6LcO_komAAAAAG_nAU7L846UqCS9feqH9HIXTrJX", {
-            action: "LOGIN"
-          }).then((reCAPTCHAToken: string) => {
-            clearTimeout(timeoutId);
-            resolve(reCAPTCHAToken);
-          }).catch((error: any) => {
-            clearTimeout(timeoutId);
-            reject(error);
+
+          window.grecaptcha
+            .execute("6LcO_komAAAAAG_nAU7L846UqCS9feqH9HIXTrJX", {
+              action: "LOGIN",
+            })
+            .then((reCAPTCHAToken: string) => {
+              clearTimeout(timeoutId);
+              resolve(reCAPTCHAToken);
+            })
+            .catch((error: any) => {
+              clearTimeout(timeoutId);
+              reject(error);
+            });
+        });
+
+        reCAPTCHATokenPromise
+          .then((reCAPTCHAToken: string) => {
+            handleTokenExchange(idToken, reCAPTCHAToken);
+          })
+          .catch((error: any) => {
+            console.error(error);
+            setError("reCAPTCHA execution failed");
           });
-        });
-  
-        reCAPTCHATokenPromise.then((reCAPTCHAToken: string) => {
-          handleTokenExchange(idToken, reCAPTCHAToken);
-        }).catch((error: any) => {
-          console.error(error);
-          setError("reCAPTCHA execution failed");
-        });
       }
     } catch (error: any) {
       const errorCode = error.code;
@@ -117,34 +127,35 @@ const SignInWithGoogle = ({ onSignIn }: { onSignIn: (user: User) => void }) => {
   };
 
   return (
-    
     <div className={styles.container}>
       <div className={styles.bgrabbit}>
         <svg className="svg-icon" viewBox="0 0 24 24">
-          <path fill="currentColor"/>
+          <path fill="currentColor" />
         </svg>
       </div>
       <div className={`card ${styles.card}`}>
         <div className={`card-body ${styles.cardBody}`}>
-        <h5 className={`card-title ${styles.cardTitle}`}>BILL PAYMENT GATEWAY
-        </h5>
-        <Button
-          variant="light"
-          className={`btn btn-block btn-google ${styles.button}`}
-          onClick={signIn}
-        >
-          
-          <Image className="w-20 h-20 me-2" src={logogoogle} alt={"icon"}></Image>
-          <span className={`text ${styles.buttonText}`}>Sign in with Google</span>
-          
-        </Button>
-        
+          <h5 className={`card-title ${styles.cardTitle}`}>
+            BILL PAYMENT GATEWAY
+          </h5>
+          <Button
+            variant="light"
+            className={`btn btn-block btn-google ${styles.button}`}
+            onClick={signIn}
+          >
+            <Image
+              className="w-20 h-20 me-2"
+              src={logogoogle}
+              alt={"icon"}
+            ></Image>
+            <span className={`text ${styles.buttonText}`}>
+              Sign in with Google
+            </span>
+          </Button>
         </div>
       </div>
-      
     </div>
   );
 };
 
 export default SignInWithGoogle;
-

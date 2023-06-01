@@ -23,9 +23,12 @@ const Dashboard = () => {
         });
 
         setTimeout(() => {
-          window.grecaptcha.execute("6LcO_komAAAAAG_nAU7L846UqCS9feqH9HIXTrJX", {
-            action: "SIGN_OUT",
-          });
+          window.grecaptcha.execute(
+            "6LcO_komAAAAAG_nAU7L846UqCS9feqH9HIXTrJX",
+            {
+              action: "SIGN_OUT",
+            }
+          );
           router.push("/");
         }, 10000); // Delay the redirection by 10 seconds (adjust the duration as needed)
       })
@@ -49,15 +52,9 @@ const Dashboard = () => {
   return (
     <div>
       <ul className="row">
-      <Link href='/provider'>
-        Provider
-      </Link>
-      <Link href='/transaction'>
-        Transaction
-      </Link>
-      <Link href='/service'>
-        Service
-      </Link>
+        <Link href="/provider">Provider</Link>
+        <Link href="/transaction">Transaction</Link>
+        <Link href="/service">Service</Link>
       </ul>
       {user && (
         <div>
