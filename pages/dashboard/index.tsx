@@ -1,7 +1,8 @@
 import { getAuth, onAuthStateChanged, signOut, User } from "firebase/auth";
-import Link from "next/link";
 import { useRouter } from "next/router";
 import { useState, useEffect } from "react";
+import NavbarComponent from "../../components/navbar";
+import "bootstrap/dist/css/bootstrap.min.css";
 
 const Dashboard = () => {
   const auth = getAuth();
@@ -51,20 +52,23 @@ const Dashboard = () => {
 
   return (
     <div>
-      <ul className="row">
+      <NavbarComponent />
+      {/* <ul className="row">
         <Link href="/provider">Provider</Link>
         <Link href="/transaction">Transaction</Link>
         <Link href="/service">Service</Link>
-      </ul>
-      {user && (
-        <div>
-          <p>Name: {user.displayName}</p>
-          <p>Email: {user.email}</p>
-        </div>
-      )}
+      </ul> */}
+      <div style={{ marginTop: "80px" }}>
+        {user && (
+          <div>
+            <p>Name: {user.displayName}</p>
+            <p>Email: {user.email}</p>
+          </div>
+        )}
 
-      <button onClick={handleSignOut}>Sign Out</button>
-      <div id="recaptcha-container"></div>
+        <button onClick={handleSignOut}>Sign Out</button>
+        <div id="recaptcha-container"></div>
+      </div>
     </div>
   );
 };

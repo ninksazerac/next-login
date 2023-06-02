@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { Table } from "react-bootstrap";
 // import { data } from '../app/api/data';
 
 const Provider: React.FC = () => {
@@ -20,7 +21,7 @@ const Provider: React.FC = () => {
           onChange={(e) => setSearch(e.target.value)}
         /> */}
 
-      <table className="table table-striped">
+      <Table striped bordered>
         <thead>
           <tr>
             <th>ID</th>
@@ -29,7 +30,7 @@ const Provider: React.FC = () => {
           </tr>
         </thead>
         <tbody>
-          filter search and pull data map
+          {/* filter search and pull data map */}
           {/* {filteredData.map((item) => (
               <tr key={item.id}>
               <td>{item.id}</td>
@@ -38,8 +39,18 @@ const Provider: React.FC = () => {
               </tr>
             ))} */}
           {/* Add more rows as needed */}
+          <tr>
+          <td>1</td>
+          <td>John Doe</td>
+          <td>30</td>
+        </tr>
+        <tr>
+          <td>2</td>
+          <td>Jane Smith</td>
+          <td>25</td>
+        </tr>
         </tbody>
-      </table>
+      </Table>
     </div>
   );
 };

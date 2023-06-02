@@ -1,4 +1,4 @@
-import Transaction from "components/provider";
+import Transaction from "../../components/transaction";
 import React from "react";
 
 const TransactionPage = () => {

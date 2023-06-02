@@ -1,4 +1,4 @@
-import Service from "../components/service";
+import Service from "../../components/service";
 import React from "react";
 
 const ServicePage = () => {

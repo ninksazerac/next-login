@@ -4,7 +4,6 @@ import { useRouter } from "next/router";
 import { initFirebase, FirebaseApp } from "../firebase/firebase";
 import "bootstrap/dist/css/bootstrap.min.css"; // Import bootstrap CSS
 import SignInWithGoogle from "../components/signinwithgoogle";
-import Head from "next/head";
 
 function MyApp({ Component, pageProps }: { Component: any; pageProps: any }) {
   const app: FirebaseApp = initFirebase();

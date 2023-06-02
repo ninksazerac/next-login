@@ -22,17 +22,23 @@
       ]
     },
     "forceConsistentCasingInFileNames": true,
-    "incremental": true
+    "incremental": true,
+    "plugins": [
+      {
+        "name": "next"
+      }
+    ]
   },
   "include": [
     "next-env.d.ts",
     "**/*.ts",
     "**/*.tsx",
     "pages/index.tsx",
-    "pages/dashboard.tsx",
+    "pages/dashboard/index.tsx",
     "pages/_app.tsx",
     "firebase/firebase.tsx",
-    "components/signinwithgoogle.tsx"
+    "components/signinwithgoogle.tsx",
+    ".next/types/**/*.ts"
   ],
   "exclude": [
     "node_modules"

@@ -54,7 +54,7 @@ const SignInWithGoogle = ({ onSignIn }: { onSignIn: (user: User) => void }) => {
     reCAPTCHAToken: string
   ) => {
     try {
-      const response = await axios.post("/pages/api/signin-with-google", {
+      const response = await axios.post("../api/signin-with-google", {
         idToken,
         reCAPTCHAToken,
       });
